@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>John's Conference</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         <link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
+
+        <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/demo_room.css" />
+        <script type="text/javascript" src="js/demo_multimedia_streaming.js"></script>
+        <script type="text/javascript" src="/easyrtc/labs/easyrtc_recorder.js"></script>
+    </head>
+
+    <body onload="appInit()">
+      <div id="fullpage"  class="boxCommon" style="background-image:url(images/grey_background_stripe.jpg);">
+            <!--<div style="top: 0; z-index:5; position: absolute; float: left; ">-->
+              <video id="box0" class="transit boxCommon thumbCommon easyrtcMirror" muted="muted" volume="0" ></video>
+              <video id="box1" class="transit boxCommon thumbCommon" style="visibility:hidden"></video>
+              <video id="box2" class="transit boxCommon thumbCommon" style="visibility:hidden"></video>
+              <video id="box3" class="transit boxCommon thumbCommon" style="visibility:hidden"></video>
+            <!--</div>
+            <!--<div id="textentryBox" onsubmit="sendText()" style="display:none" >
+                <!--<input type="text" id="textentryField"  class="transit boxcommon" /><br>
+                <button id="textentrySubmit" style="float:right;margin-right:1em" onclick="sendText()">Send</button>
+                <button id="textentryCancel" style="float:left;margin-left:1em" onclick="cancelText()">Cancel</button>
+            </div>-->
+            
+            <img id="killButton" class="transit boxCommon" onclick="killActiveBox()" src="images/button_close.png" style="display:none;z-index:3" alt="close button" />
+            <img id="muteButton" class="transit boxCommon" onclick ="muteActiveBox()" src="images/button_mute.png" style="display:none;z-index:3" alt="mute button" />
+            <!--<img id="textEntryButton" class="transit boxCommon" onclick ="showTextEntry()" src="images/textEntry.png" style="z-index:3;display:none" hidden alt="text button" />-->
+       
+            <div id="chatBox" style="background-color: #fff; height: 10%; top:100%; position: absolute; display: block; text-align: left; margin: 10px;"><pre>Chat:</pre>
+              <textarea id="chatArea" rows="4" cols="150" margin="2px" disabled>
+                
+              </textarea><br>
+              <input type="text" id="textentryField" placeholder="Send your message here..." size="100" class="transit boxcommon" />
+              <button id="textentrySubmit" style="margin-right:1em" onclick="sendText()">Send</button><br>
+              <hr>
+              
+              <fieldset>
+                <legend>Record Call</legend>
+                <div id="recordButtons">
+                <input type="radio" onclick="easyrtc.setRecordingVideoCodec("vp8");" checked="checked" id="useVP8" name="codecUsed"> VP8 </input>
+                <input type="radio" onclick="easyrtc.setRecordingVideoCodec("vp9");" id="useVP9" name="codecUsed"> VP9 </input>
+                <input type="radio" onclick="easyrtc.setRecordingVideoCodec("h264");" id="useH264" name="codecUsed"> H264 </input>
+                <br>
+                <button id="startRecording" disabled="disabled" onclick="startRecording();" >Start recording</button> 
+                <button id="stopRecording" disabled="disabled" onclick="endRecording();" >End/finish recording</button> 
+                 <br>
+                 <div id="linkToFiles" style="display: none;">
+                 Download Videos:<br> Self:<a id="selfDownloadLink"></a>
+                                 <br> Caller1:<a id="callerDownloadLink1"></a>
+                                 <br> Caller2:<a id="callerDownloadLink2"></a>
+                                 <br> Caller3:<a id="callerDownloadLink3"></a>
+                                 <br> Caller4:<a id="callerDownloadLink4"></a>
+                 </div>
+              </div>
+              </fieldset>
+            </div>
+      </div>
+          
+    <script>
+      // Get the input field
+      var input = document.getElementById("textentryField");
+
+      // Execute a function when the user releases a key on the keyboard
+      input.addEventListener("keyup", function(event) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+          // Trigger the button element with a click
+          sendText();
+        }
+      });
+    </script>      
+    </body>
+</html>
